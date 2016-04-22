@@ -104,6 +104,23 @@ public class GUI extends JFrame {
     public static void main(String[] args){
         new GUI();
     }
+    public void listare() {
+        mytext.setText("");
+        boolean flag = false;
+        for (int i = 0; i < agenda.length; i++) {
+            if (agenda[i] != null) {  // => la inceput nu afiseaza nimic, pentru ca nu am introdus nume
+                Contact p = agenda[i];
+                mytext.setText(mytext.getText() + "\n" + p.getNume());
+                mytext.setText(mytext.getText() + "\n" + p.getTelefon());
+                flag = true;
+            }
+        }
+
+        if (flag == false) {
+            printGUI("Inca nu exista contacte!");
+        }
+    }
+
     public GUI(){
         super("Agenda telefonica");
 
@@ -121,23 +138,11 @@ public class GUI extends JFrame {
         //Butoane
         east.setLayout(new GridLayout(5,1));
 
-        east.add(afisare);
-        afisare.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                mytext.setText("");
-                boolean flag=false;
-                for (int i = 0; i < agenda.length; i++) {
-                    if (agenda[i] != null) {  // => la inceput nu afiseaza nimic, pentru ca nu am introdus nume
-                        Contact p = agenda[i];
-                        mytext.setText(mytext.getText()+ "\n" +  p.getNume());
-                        mytext.setText(mytext.getText() + "\n"  + p.getTelefon());
-                        flag = true;
-                    }
-                }
 
-                if(flag==false) {
-                    printGUI("Inca nu exista contacte!");
-                }
+        east.add(afisare);
+        afisare.addActionListener(lambda {
+            public void actionPerformed(ActionEvent e) {
+               listare();
             }
         });
 
@@ -154,6 +159,7 @@ public class GUI extends JFrame {
                 } else {
                     printGUI("Ne pare rau, dar agenda este plina deja!");
                 }
+                listare();
             }
         });
 
@@ -187,14 +193,14 @@ public class GUI extends JFrame {
 
                 if (r == -1) {
                     System.out.println();
-                    printConsole("Numele " + nume + " nu exista in agenda!");
+                    printGUI("Numele " + nume + " nu exista in agenda!");
 
                 }
                 else {
                     agenda[r] = null;
-                    printGUI("Nume sters cu succes. Verificati prin afisare.");
+                    printGUI("Nume sters cu succes.");
                 }
-
+                listare();
             }
         });
 
@@ -213,8 +219,9 @@ public class GUI extends JFrame {
                 } else {
                     String numeModif = readStringGUI("Introduceti numele dorit: ");
                     agenda[r].setNume(numeModif);
-                    printGUI("Nume modificat cu succes. Verificati prin afisare.");
+                    printGUI("Nume modificat cu succes.");
                 }
+                listare();
             }
         });
 
