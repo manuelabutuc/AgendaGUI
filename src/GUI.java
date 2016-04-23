@@ -140,7 +140,7 @@ public class GUI extends JFrame {
 
 
         east.add(afisare);
-        afisare.addActionListener(lambda {
+        afisare.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                listare();
             }
